@@ -12,9 +12,9 @@
 #include <string>
 #include <fstream>
 #include <vector>
-// boost::format:: 
+// boost::format::
 #include <boost/format.hpp>
-// boost::spirit:: 
+// boost::spirit::
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix_core.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>
@@ -39,17 +39,16 @@ bool parse_numbers(Iterator first, Iterator last, std::vector<int>& vect)
 	using qi::_1;
 	using ascii::space;
 	using ph::push_back;
-	using ph::ref;
 
 	bool ret = qi::phrase_parse(
 					first,
 					last,
-					
+
 					// Grammar
 					(
-						// another syntax: 
+						// another syntax:
                         // int_[push_back(ref(vect), _1)] >> *( ',' >> int_)
-						int_[push_back(ref(vect), _1)] % ','
+						int_[push_back(ph::ref(vect), _1)] % ','
 					),
 					space
 			);
@@ -61,7 +60,7 @@ bool parse_numbers(Iterator first, Iterator last, std::vector<int>& vect)
 	return ret;
 }
 
-// 
+//
 // Entry point
 //////////////////////////////////////////////////////
 
@@ -84,8 +83,8 @@ int main(int argc, char* argv[])
 		parse_numbers(line.begin(),line.end(),vect);
 	}
 
-	std::cout << boost::format("parsed %d integers from %s") 
-				% vect.size() % fname 
+	std::cout << boost::format("parsed %d integers from %s")
+				% vect.size() % fname
 			  << std::endl;
 }
 

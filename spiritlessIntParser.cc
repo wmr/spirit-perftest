@@ -42,6 +42,6 @@ int main(int argc, char* argv[])
         vect.push_back(b);
     }
     std::cout << boost::format("parsed %d integers from %s")
-            % vect.size() % fname << std::endl;
+        % vect.size() % fname << std::endl;
 
 }

@@ -1,0 +1,35 @@
+# project
+proj = spirit
+# tools
+cc = clang++
+linker = clang++
+style_tool = uncrustify -lOC+  -c $$(pwd)/uc.cfg --no-backup --mtime
+
+# settings
+
+cflags = -O3 -Wall -std=c++1y
+fwks =
+incl = -I/opt/local/include
+libp =
+deplibs =
+rpath = 
+
+rule style
+    command = $style_tool $$(find . -maxdepth 1 \( -name "*.h*" -or -name "*.c*" -or -name "*.m*" \) -and \( \! -name "*.uncrustify" -and \! -name "*.cfg" -and \! -iname "*cmake*" \) )
+
+rule cc
+    command = $cc $cflags $fwks -c $in -o $out $incl
+
+rule link
+    command = $linker $cflags $fwks $in -o $out $incl $libp $deplibs $rpath
+
+rule clean
+   command = rm -f ./$proj *.orig
+
+build style: style
+build clean: clean
+build $proj: link spiritIntParser.cc
+build quick: phony $proj
+build all: phony style $proj
+
+default quick
